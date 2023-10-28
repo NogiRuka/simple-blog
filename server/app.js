@@ -7,6 +7,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const app = express();
+const { db, genid } = require('./db/DBUtils')
 const port = 8080;
 
 //开放跨域请求
@@ -28,6 +29,29 @@ const update = multer({
 app.use(update.any())
 // 指定静态资源目录
 app.use(express.static(path.join(__dirname, "public")))
+
+// category/_token/add
+const ADMIN_TOKEN_PATH = "/_token"
+app.all("*", async (req, res, next) => {
+    if (req.path.indexOf(ADMIN_TOKEN_PATH) > -1) {
+        let { token } = req.headers
+
+        let admin_token_sql = "SELECT * FROM `admin` WHERE `token` = ?"
+        let adminResult = await db.async.all(admin_token_sql, [token])
+        if (adminResult.err != null || adminResult.rows.length == 0) {
+            res.send({
+                code: 403,
+                msg: '请先登录'
+            })
+            return
+        } else {
+            next()
+        }
+    } else {
+        next()
+    }
+
+})
 
 app.use('/test', require('./routers/TestRouter'))
 app.use('/admin', require('./routers/AdminRouter'))

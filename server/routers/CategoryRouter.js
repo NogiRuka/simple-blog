@@ -22,7 +22,7 @@ router.get('/list', async (req, res) => {
 })
 
 // 添加接口
-router.post('/add', async (req, res) => {
+router.post('/_token/add', async (req, res) => {
 
     let { name } = req.body
     const insert_sql = "INSERT INTO `category` (`id`, `name`) VALUES (?, ?)"
@@ -41,7 +41,7 @@ router.post('/add', async (req, res) => {
 })
 
 // 修改接口
-router.put('/update', async (req, res) => {
+router.put('/_token/update', async (req, res) => {
 
     let { id, name } = req.body
     const update_sql = "UPDATE `category` SET `name` = ? WHERE `id` = ? "
@@ -62,7 +62,7 @@ router.put('/update', async (req, res) => {
 
 
 // 删除接口
-router.delete('/delete', async (req, res) => {
+router.delete('/_token/delete', async (req, res) => {
 
     let id = req.query.id
     const delete_sql = "DELETE FROM `category` WHERE `id` = ? "
@@ -79,15 +79,6 @@ router.delete('/delete', async (req, res) => {
             msg: '删除失败'
         })
     }
-})
-
-
-
-
-
-
-router.get('/test', async (req, res) => {
-
 })
 
 module.exports = router;
