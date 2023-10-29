@@ -1,6 +1,10 @@
 import { createApp } from 'vue'
+import { router } from './common/router'
+import { createPinia } from 'pinia'
 import './style.css'
 import App from './App.vue'
+import naive from 'naive-ui'
+import axios from 'axios'
 
 /**
  * axios
@@ -11,5 +15,14 @@ import App from './App.vue'
  * wangeditor
  */
 
+axios.defaults.baseURL = 'http://localhost:8080'
 
-createApp(App).mount('#app')
+const app = createApp(App)
+
+app.provide('axios', axios)
+
+app.use(naive)
+    .use(router)
+    .use(createPinia())
+    .mount('#app')
+
