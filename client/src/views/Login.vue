@@ -19,15 +19,15 @@
     
 <script setup>
 import { ref, reactive, inject } from 'vue'
-// import { AdminStore } from '../stores/AdminStore'
-// import { useRouter, useRoute } from 'vue-router'
+import { AdminStore } from '../stores/AdminStore'
 
-// const router = useRouter()
-// const route = useRoute()
+import { useRouter, useRoute } from 'vue-router'
+const router = useRouter()
+const route = useRoute()
 
-// const message = inject("message")
+const message = inject("message")
 const axios = inject("axios")
-// const adminStore = AdminStore()
+const adminStore = AdminStore()
 
 /**验证表单规则 */
 let rules = {
@@ -68,7 +68,7 @@ const login = async () => {
             localStorage.setItem("rember", admin.rember ? 1 : 0)
         }
         router.push("/dashboard")
-        message.info("登录成功")
+        message.success("登录成功")
     } else {
         message.error("登录失败")
     }
